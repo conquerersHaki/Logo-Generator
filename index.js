@@ -1,6 +1,6 @@
 // setting up required modules
-const svg = require("./lib/svg");
-const { circle, square, triangle } = require("./lib/shapes");
+const SVG = require("./library/svg.js");
+const { Circle, Square, Triangle } = require("./library/shapes.js");
 const inquirer = require("inquirer");
 const { writeFile } = require("fs/promises");
 
@@ -11,11 +11,11 @@ function init() {
       {
         type: "input",
         name: "characters",
-        message: "Enter up to 3 characters",
+        message: "Enter up to 3 characters for your logo.",
         //ensuring there actually are characters entered
         validate: function (input) {
           if (input.length > 3) {
-            return "Please only enter between 1 to 3 characters.";
+            return "Please only enter between 1 to 3 characters for your logo.";
           } else {
             return true;
           }
@@ -28,9 +28,9 @@ function init() {
       },
       {
         type: "list",
-        name: "shape",
+        name: "Shape",
         message: "What shape would you like your logo to be?",
-        choices: ["circle", "triangle", "square"],
+        choices: ["Circle", "Triangle", "Square"],
       },
       {
         type: "input",
@@ -39,25 +39,25 @@ function init() {
       },
       //taking in the input
     ])
-    .then(({ characters, colorText, shape, colorShape }) => {
+    .then(({ characters, colorText, Shape, colorShape }) => {
       let shapeName;
-      switch (shape) {
-        case "circle":
-          shapeName = new circle();
+      switch (Shape) {
+        case "Circle":
+          shapeName = new Circle();
           break;
-        case "triangle":
-          shapeName = new triangle();
+        case "Triangle":
+          shapeName = new Triangle();
           break;
-        case "square":
-          shapeName = new square();
+        case "Square":
+          shapeName = new Square();
           break;
       }
       //creating logo
       shapeName.setColor(colorShape);
-      const svg = new svg();
-      svg.setTextColor(colorText, characters);
-      svg.setShape(shapeName);
-      return writeFile("logo.svg", svg.render());
+      const mySVG = new SVG();
+      mySVG.setColorText(colorText, characters);
+      mySVG.setShape(shapeName);
+      return writeFile("logo.svg", mySVG.render());
     })
     .then(() => {
       console.log("All done! Logo generated.");
@@ -68,4 +68,5 @@ function init() {
 }
 
 init();
+
 module.exports = {};
