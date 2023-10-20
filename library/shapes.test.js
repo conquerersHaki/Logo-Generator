@@ -1,4 +1,4 @@
-const { Circle, Square, Triangle } = require("../lib/shapes");
+const { Circle, Square, Triangle } = require("../library/shapes");
 
 //Circle Test
 describe("Circle", () => {
